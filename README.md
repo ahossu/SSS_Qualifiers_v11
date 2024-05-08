@@ -12,7 +12,6 @@
   The flag is: ```SSS{cage_travolta}```.
 
 ### 2. Web: Qualifiers: Welcome
-
   Link: http://141.85.224.116:8081/.
   Inspecting the page the following part of the site is revealed: ```static/css/main.css```.
   
@@ -42,3 +41,10 @@
   After this I observed that the letters are shifted and I used [ROT13](https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)&input=RkZGe3JpcmVsX3N2eXJfdW5mX3Nycnl2YXRmfQ) to find the final flag.
   
   The flag is: ```SSS{every_file_has_feelings}```.
+
+### 3. Web: Qualifiers: Cake
+  Link: http://141.85.224.116:8086/.
+
+  I inspected the page and I found a cookie named 'FLAG' and after modifying it's value from 'empty' to 'applepie' and I refreshed the page and the value of the 'FLAG' cookie became ```SSS%7Bhansel_gretel%7D```.
+
+  The flag is: ```SSS{hansel_gretel}```
