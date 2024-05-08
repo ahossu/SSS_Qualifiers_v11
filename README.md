@@ -123,5 +123,14 @@
   I combined the parts and the result is: ```0x53 0x53 0x53 0x7B 0x61 0x5F 0x63 0x68 0x69 0x70 0x5F 0x6F 0x66 0x5F 0x74 0x68 0x65 0x5F 0x6F 0x6C 0x64 0x5F 0x62 0x6C 0x6F 0x63 0x6B 0x7D```.
 
   I took the hex values and I [transformed](https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')&input=MHg1MyAweDUzIDB4NTMgMHg3QiAweDYxIDB4NUYgMHg2MyAweDY4IDB4NjkgMHg3MCAweDVGIDB4NkYgMHg2NiAweDVGIDB4NzQgMHg2OCAweDY1IDB4NUYgMHg2RiAweDZDIDB4NjQgMHg1RiAweDYyIDB4NkMgMHg2RiAweDYzIDB4NkIgMHg3RA) them in ASCII characters.
-
+  
   The flag is: ```SSS{a_chip_of_the_old_block}```.
+
+### 6. Binary: Qualifiers: Black Hole
+  I opened the file in Ghidra.
+
+  I saw that the flag is printed in ```/dev/null```, but I was unable to read it, so I modifiend in Ghidra the path to ```/tmp/sss``` and I exported the new program.
+
+  Than, I runned the program and I verified if ```/tmp/sss``` file had the flag inside.
+
+  The flag is: ```SSS{the_more_you_look_the_less_you_actually_see}```.
