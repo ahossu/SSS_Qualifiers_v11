@@ -265,3 +265,175 @@
   I found the flag in ```/home/ctf/flag```.
 
   The flag is: ```SSS{Mirror_mirror_on_the_wall_who_is_the_fairest_of_them_all}```.
+
+### 9. Binary: Qualifiers: Not Backdoor
+  I opened the file in Ghidra and I saw a very interesting function:
+  ```
+  void FUN_004006b6(uint param_1)
+  
+  {
+    long in_FS_OFFSET;
+    ulong local_40;
+    byte local_38 [40];
+    long local_10;
+    
+    local_10 = *(long *)(in_FS_OFFSET + 40);
+    local_38[0] = 0x3c;
+    local_38[1] = 0x3c;
+    local_38[2] = 0x3c;
+    local_38[3] = 0x14;
+    local_38[4] = 0x1f;
+    local_38[5] = 0x1d;
+    local_38[6] = 0x5c;
+    local_38[7] = 0x1b;
+    local_38[8] = 0x1b;
+    local_38[9] = 0x16;
+    local_38[10] = 0x30;
+    local_38[11] = 0xc;
+    local_38[12] = 0x5f;
+    local_38[13] = 1;
+    local_38[14] = 0x19;
+    local_38[15] = 0;
+    local_38[16] = 3;
+    local_38[17] = 0x1a;
+    local_38[18] = 0x1b;
+    local_38[19] = 10;
+    local_38[20] = 0xb;
+    local_38[21] = 0x30;
+    local_38[22] = 9;
+    local_38[23] = 3;
+    local_38[24] = 0x5b;
+    local_38[25] = 8;
+    local_38[26] = 0x12;
+    local_38[27] = 0x6f;
+    for (local_40 = 0; local_40 < 28; local_40 = local_40 + 1) {
+      local_38[local_40] = local_38[local_40] ^ (byte)param_1;
+    }
+    printf("You chose flag no. %d; Here: %s\n",(ulong)param_1,local_38);
+    if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                      /* WARNING: Subroutine does not return */
+      __stack_chk_fail();
+    }
+    return;
+  }
+  ```
+
+  The function ```FUN_004008a1``` calls the previonus function:
+  ```
+    undefined8 FUN_004008a1(int param_1,long param_2)
+  
+  {
+    int iVar1;
+    
+    if (param_1 == 2) {
+      iVar1 = atoi(*(char **)(param_2 + 8));
+      FUN_004006b6(iVar1);
+      return 0;
+    }
+    FUN_004007af();
+                      /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+```
+
+  As it is unclear what values have param_1 and param_2, I've written the following script to test a huge number of possible values for param_1 and param_2:
+```
+  #include <stdio.h>
+
+  int main(){
+      
+    int i;
+    
+    for (i = 0; i < 10000; i++) {
+        
+        int param_1 = i;    
+      
+        unsigned long local_40;
+        char local_38 [40];
+        long local_10;
+        
+        local_38[0] = 0x3c;
+        local_38[1] = 0x3c;
+        local_38[2] = 0x3c;
+        local_38[3] = 0x14;
+        local_38[4] = 0x1f;
+        local_38[5] = 0x1d;
+        local_38[6] = 0x5c;
+        local_38[7] = 0x1b;
+        local_38[8] = 0x1b;
+        local_38[9] = 0x16;
+        local_38[10] = 0x30;
+        local_38[11] = 0xc;
+        local_38[12] = 0x5f;
+        local_38[13] = 1;
+        local_38[14] = 0x19;
+        local_38[15] = 0;
+        local_38[16] = 3;
+        local_38[17] = 0x1a;
+        local_38[18] = 0x1b;
+        local_38[19] = 10;
+        local_38[20] = 0xb;
+        local_38[21] = 0x30;
+        local_38[22] = 9;
+        local_38[23] = 3;
+        local_38[24] = 0x5b;
+        local_38[25] = 8;
+        local_38[26] = 0x12;
+        local_38[27] = 0x6f;
+        
+        for (local_40 = 0; local_40 < 0x1c; local_40 = local_40 + 1) {
+          local_38[local_40] = local_38[local_40] ^ (char)param_1;
+        }
+        
+        if (local_38[0] == 'S')
+          printf("You chose flag no. %lld; Here: %s\n", (long long)param_1,local_38);
+        
+    }
+  }
+  ```
+  The output of the program is:
+  ```
+  You chose flag no. 111; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 367; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 623; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 879; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 1135; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 1391; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 1647; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 1903; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 2159; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 2415; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 2671; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 2927; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 3183; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 3439; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 3695; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 3951; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 4207; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 4463; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 4719; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 4975; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 5231; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 5487; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 5743; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 5999; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 6255; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 6511; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 6767; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 7023; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 7279; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 7535; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 7791; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 8047; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 8303; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 8559; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 8815; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 9071; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 9327; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 9583; Here: SSS{pr3tty_c0nvoluted_fl4g}
+  You chose flag no. 9839; Here: SSS{pr3tty_c0nvoluted_fl4g}
+
+.  ..Program finished with exit code 0
+  ```
+
+  The final flag is: ```SSS{pr3tty_c0nvoluted_fl4g}```.
