@@ -138,10 +138,130 @@
 ### 7. Web: Qualifiers: IP Destroyer
   Link: http://141.85.224.116:8084/.
 
-  As it works like: ping 'our input', our input can contain ';' with splits our command in more commands.
+  As it works like: ping 'our input', our input can contain ';' with allows us to send more commands.
 
   After searching a lot in directories I found 'ctf' folder in '/home' directory, which has 'flag' file inside.
   
   I gave the following input: ```-c 0 8.8.8.8; cat /home/ctf/flag``` to read 'flag' file.
 
   The flag is: ```SSS{hey_man_stop_pinging_around}```.
+
+### 8. Binary: Qualifiers: Mirror Me
+  I opened the binary in Ghidra and I saw that the condition ```if (lVar3 == iVar2 * iVar1)``` must be satisfied to access a terminal using ```system("/bin/sh");```.
+
+  I also saw that ```lVar3 = max_mirror();```. After analysing the functions used for calculating ```lVal3```, I decided to make my own C script to simulate this process:
+  ```
+  #include <stdio.h>
+  
+  int check_cond(unsigned long param_1)
+  
+  {
+    unsigned long local_30;
+    unsigned long local_20;
+    
+    local_20 = 0;
+    for (local_30 = param_1; local_30 != 0; local_30 = local_30 / 10) {
+      local_20 = local_30 % 10 + local_20 * 10;
+    }
+    return local_20 == param_1;
+  }
+  
+  
+  int main() {
+    unsigned int uVar1;
+    unsigned int uVar2;
+    int iVar3;
+    unsigned int local_24;
+    unsigned int local_20;
+    
+    uVar1 = 0;
+    for (local_24 = 999; 100 < local_24; local_24 = local_24 - 1) {
+      for (local_20 = local_24; 100 < local_20; local_20 = local_20 - 1) {
+        uVar2 = local_20 * local_24;
+        iVar3 = check_cond(uVar2);
+        if ((iVar3 != 0) && (uVar1 < uVar2)) {
+          uVar1 = uVar2;
+        }
+      }
+    }
+    printf("%d",uVar1);
+  }
+  ```
+
+  The result is: ```906609```, so ```lVal3 = 906609```.
+
+  I found 2 divisors of 906609: 3 and 302203. So, I runned:
+  ```
+  $ ./mirror_me                                                               
+  Insert the corect numbers in order to get the flag
+  3
+  302203            
+  $
+  ```
+  Now I was able to run commands in the directory of the script.
+
+  I decided to connect to the server to get the flag in a similar way:
+
+  ```
+  $ nc 141.85.224.99 31338
+  Insert the corect numbers in order to get the flag
+  ```
+  
+  ```
+  3
+  302203
+  ```
+  
+  ```
+  ls
+  bin
+  boot
+  core
+  dev
+  etc
+  home
+  lib
+  lib64
+  media
+  mnt
+  opt
+  proc
+  root
+  run
+  sbin
+  srv
+  sys
+  tmp
+  usr
+  var
+  ```
+  ```
+  cd home
+  ```
+  
+  ```
+  ls
+  ctf
+  ```
+  ```
+  cd ctf
+  ```
+  
+  ```
+  ls
+  flag
+  mirror-me
+  ```
+  
+  ```
+  cat flag
+  SSS{Mirror_mirror_on_the_wall_who_is_the_fairest_of_them_all}
+  ```
+  
+  ```
+  exit
+  ```
+
+  I found the flag in ```/home/ctf/flag```.
+
+  The flag is: ```SSS{Mirror_mirror_on_the_wall_who_is_the_fairest_of_them_all}```.
