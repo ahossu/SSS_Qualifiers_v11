@@ -45,6 +45,17 @@
 ### 3. Web: Qualifiers: Cake
   Link: http://141.85.224.116:8086/.
 
-  I inspected the page and I found a cookie named 'FLAG' and after modifying it's value from 'empty' to 'applepie' and I refreshed the page and the value of the 'FLAG' cookie became ```SSS%7Bhansel_gretel%7D```.
+  I inspected the page and I found a cookie named 'FLAG' and after modifying it's value from 'empty' to 'applepie'.
+  
+  I refreshed the page and the value of the 'FLAG' cookie became ```SSS%7Bhansel_gretel%7D```.
 
   The flag is: ```SSS{hansel_gretel}```
+
+### 4. Web: Qualifiers: Sequel Pro
+  Link: http://141.85.224.116:8083/index.php.
+
+  As the name of the task suggests, this challange is about: [SQL Injection for Login](https://www.sqlinjection.net/login/).
+
+  We need to use ```admin``` user and ```wrongpassword' OR 'a'='a``` as password for logging in.
+  
+  The flag is ```SSS{yummy_and_nutritious}```.
