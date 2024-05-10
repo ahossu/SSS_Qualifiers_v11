@@ -437,3 +437,22 @@
   ```
 
   The final flag is: ```SSS{pr3tty_c0nvoluted_fl4g}```.
+
+### 10. Binary: Qualifiers: Pinpoint
+  I opened in Ghidra and I analysed the binary with GDB.
+
+  It is clear that the input is related with the ```v``` variable, which has the address: ```0x601058```.
+
+  The input is integer, so ```0x601058``` in integer is ```6295640```.
+
+  The following input will be related with ```0x5358535```, but the variable already has ```0x0x5353535```.
+
+  As the input accepts only two bytes, I thought it will be ```0x2020```, but after this I saw in IDA PRO that only one byte will be used.
+
+  Than I used ```6295640``` and ```0x20``` as input. After this,I found out that we need also an integer as second input.
+
+  I used the following input: ```6295640``` and ```0x20```. After this I saw in GDB that the address I was writing was wrong.
+
+  As I need to write to a futher possision in the momory to get the ```0x5358535``` I tried to inscrease the address. I used trial and error method and using ````6295642``` as input worked.
+
+  The final flag is: ```SSS{aim_for_the_kill}```.
