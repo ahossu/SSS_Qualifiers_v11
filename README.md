@@ -453,7 +453,7 @@
   
   I used the following input: ```6295640``` and ```88```. After this I saw in GDB that the address I was writing was wrong.
   
-  As I need to write to a futher possision in the momory to get the ```0x5358535```, I tried to inscrease the address. Using ````6295642``` and ```88``` as input worked, because I need to write to the third byte of the integer that has four bytes.
+  As I need to write to a futher possision in the momory to get the ```0x5358535```, I tried to inscrease the address. Using ```6295642``` and ```88``` as input worked, because I need to write to the third byte of the integer that has four bytes.
   
   This is the code with the interaction with the server:
   ```
